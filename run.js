@@ -42,10 +42,7 @@ DiscordClient.on('message', (msg) => {
       () => {
         game.Run(msg.guild.id).then(
           async (winMsg) => {
-            await game.Tease(msg.channel).then(
-              () => {},
-              () => {}
-            );
+            await game.Tease(msg.channel).then();
             msg.channel.send(winMsg);
           },
           (reject) => {
