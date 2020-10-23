@@ -4,3 +4,4 @@ database.db3
 bot.log
 .env
 .vscode/
+pg.js

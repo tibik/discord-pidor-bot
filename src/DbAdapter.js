@@ -1,37 +1,24 @@
 class DbAdapter {
-    constructor(dbConnection) {
-        this.db = dbConnection;
-    }
+  constructor(dbConnection) {
+    this.db = dbConnection;
+  }
 
-    async get(sql, placeholders) {
-        return new Promise((resolve, reject) => {
-            this.db.get(sql, placeholders, (err, row) => {
-                if (err !== null) {
-                    reject(err);
-                    return;
-                }
+  connect() {
+    this.db.connect();
+  }
 
-                resolve(row);
-            });
-        });
-    }
+  async query(sql, placeholders) {
+    return new Promise((resolve, reject) => {
+      this.db.query(sql, placeholders, (err, row) => {
+        if (err !== null) {
+          reject(err);
+          return;
+        }
 
-    async all(sql, placeholders) {
-        return new Promise((resolve, reject) => {
-            this.db.all(sql, placeholders, (err, rows) => {
-                if (err !== null) {
-                    reject(err);
-                    return;
-                }
-
-                resolve(rows);
-            });
-        });
-    }
-
-    run(sql, placeholders) {
-        this.db.run(sql, placeholders);
-    }
+        resolve(row);
+      });
+    });
+  }
 }
 
 module.exports = DbAdapter;
