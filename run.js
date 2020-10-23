@@ -56,17 +56,16 @@ DiscordClient.on('message', msg => {
     }
 
     if (msg.content.match(/^!исключить/)) {
-        let chunks = msg.message.split(' ');
-        chunks.splice(0, 1);
-        let discordId = chunks.join('');
+        const chunks = msg.content.split(' ');
+        const userName = chunks[1];
+        const userId = msg.guild.members.find(m => m.user.username === userName).user.id
 
-        if (msg.author.id !== '207169330549358592') {
-            ChatFunctions.temporaryMessage(msg.channel, "Вы кто такой? Я вас не звал. Идите нахуй!");
+        if (!msg.member.hasPermission("ADMINISTRATOR")) {
+            ChatFunctions.temporaryMessage(msg.channel, "Вы кто такой? Я вас не звал. Идите нахуй!", 3000);
         } else {
-            ChatFunctions.temporaryMessage(msg.channel, "Пидарнул пидорка нахуй");
+            ChatFunctions.temporaryMessage(msg.channel, "Пидарнул пидорка нахуй", 3000);
+            participantsRepository.RemoveParticipant(userId, msg.guild.id)
         }
-        ChatFunctions.deleteMessage(msg, 3000);
-        participantsRepository.RemoveParticipant(discordId, msg.guild.id)
         return;
     }
 });
