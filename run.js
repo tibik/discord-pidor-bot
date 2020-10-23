@@ -68,6 +68,20 @@ DiscordClient.on('message', msg => {
         }
         return;
     }
+
+    if (msg.content.match(/^!пидорнуть/)) {
+        const chunks = msg.content.split(' ');
+        const userName = chunks[1];
+        const userId = msg.guild.members.find(m => m.user.username === userName).user.id
+
+        if (!msg.member.hasPermission("ADMINISTRATOR")) {
+            ChatFunctions.temporaryMessage(msg.channel, "Вы кто такой? Я вас не звал. Идите нахуй!", 3000);
+        } else {
+            ChatFunctions.temporaryMessage(msg.channel, `${userName} добавлен в игру`, 3000);
+            participantsRepository.AddParticipant(userId, msg.guild.id, userName)
+        }
+        return;
+    }
 });
 
 DiscordClient.login(process.env.BOT_TOKEN).then(r => console.log('The bot has started!'));
