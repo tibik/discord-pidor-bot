@@ -4,7 +4,7 @@
   "description": "A bot for pidor-of-the-day game",
   "main": "run.js",
   "scripts": {
-    "start": "echo \"Error: no test specified\" && exit 1",
+    "start": "node run.js",
     "init": "node install.js && node run.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --inspect run.js"
