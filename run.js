@@ -1,7 +1,5 @@
 require('dotenv').config();
 const DiscordJS = require('discord.js');
-
-const DiscordClient = new DiscordJS.Client();
 const { Client } = require('pg');
 const ChatFunctions = require('./src/ChatFunctions');
 const GamesRepository = require('./src/Repositories/GamesRepository');
@@ -9,18 +7,19 @@ const ParticipantRepository = require('./src/Repositories/ParticipantRepository'
 const Game = require('./src/Game');
 const DbAdapter = require('./src/DbAdapter');
 
+const DiscordClient = new DiscordJS.Client();
+
 const connectionString = process.env.NODE_ENV === 'development' ? process.env.LOCAL_DATABASE_URL : process.env.DATABASE_URL;
+const client = new Client({ connectionString });
 
-const client = new Client({
-  connectionString,
-});
-
-// const db = new sqlite3.Database('database.db3');
 const dbAdapter = new DbAdapter(client);
 dbAdapter.connect();
+
 const gamesRepository = new GamesRepository(dbAdapter);
 const participantsRepository = new ParticipantRepository(dbAdapter);
 const game = new Game(dbAdapter, participantsRepository, gamesRepository);
+
+const { BOT_ID } = process.env;
 
 DiscordClient.on('message', (msg) => {
   if (msg.content.match(/^!пидордня/) || msg.content.match(/^!пидорня/)) {
@@ -95,7 +94,7 @@ DiscordClient.on('message', (msg) => {
 
   const gayWords = /гей|пидор|геюга|пидорас|педик/i;
 
-  if (msg.content.match(gayWords)) {
+  if (msg.content.match(gayWords) && msg.author.id !== BOT_ID) {
     msg.react('🏳️‍🌈');
   }
 });
