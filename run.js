@@ -92,6 +92,12 @@ DiscordClient.on('message', (msg) => {
       participantsRepository.AddParticipant(userId, msg.guild.id, userName);
     }
   }
+
+  const gayWords = /гей|пидор|геюга|пидорас|педик/i;
+
+  if (msg.content.match(gayWords)) {
+    msg.react('🏳️‍🌈');
+  }
 });
 
 // eslint-disable-next-line
