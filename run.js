@@ -68,9 +68,14 @@ DiscordClient.on('message', (msg) => {
   } else if (msg.content.startsWith('!пидорнуть')) {
     if (msg.mentions.users.size) {
       const taggedUser = msg.mentions.users.first();
-      participantsRepository.AddParticipant(taggedUser.id, msg.guild.id, taggedUser.username);
-
-      msg.channel.send(`${taggedUser.username} добавлен в игру`);
+      participantsRepository.IsParticipantExists(taggedUser.id, msg.guild.id).then((isExists) => {
+        if (isExists) {
+          msg.channel.send('Да он уже в игре.');
+        } else {
+          participantsRepository.AddParticipant(taggedUser.id, msg.guild.id, taggedUser.username);
+          msg.channel.send('Ну все, теперь он с нами!');
+        }
+      });
     } else {
       msg.channel.send('Кого пидорить-то, идиот?');
     }
