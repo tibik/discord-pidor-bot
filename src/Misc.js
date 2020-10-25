@@ -4,8 +4,7 @@ module.exports = {
   },
 
   async AsyncForEach(array, callback) {
-    // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < array.length; index++) {
+    for (let index = 0; index < array.length; index += 1) {
       // eslint-disable-next-line no-await-in-loop
       await callback(array[index], index, array);
     }
