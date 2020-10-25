@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node run.js",
     "init": "node install.js && node run.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon run.js"
+    "dev": "nodemon run.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
