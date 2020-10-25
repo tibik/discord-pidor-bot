@@ -5,3 +5,4 @@ bot.log
 .env
 .vscode/
 pg.js
+TODO.md

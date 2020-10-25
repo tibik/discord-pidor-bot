@@ -19,24 +19,19 @@ const gamesRepository = new GamesRepository(dbAdapter);
 const participantsRepository = new ParticipantRepository(dbAdapter);
 const game = new Game(dbAdapter, participantsRepository, gamesRepository);
 
-const { BOT_ID } = process.env;
+const gayWords = /гей|пидор|геюга|пидорас|педик|gay/i;
 
 DiscordClient.on('message', (msg) => {
-  if (msg.content.match(/^!пидордня/) || msg.content.match(/^!пидорня/)) {
+  if (msg.content.startsWith('!пидордня') || msg.content.startsWith('!пидорня')) {
     participantsRepository.IsParticipantExists(msg.author.id, msg.guild.id).then((isExists) => {
       if (isExists) {
-        ChatFunctions.temporaryMessage(msg.channel, "You're already participating in this game, silly", 7000);
+        msg.channel.send("You're already participating in this game, silly");
       } else {
         participantsRepository.AddParticipant(msg.author.id, msg.guild.id, ChatFunctions.getNickname(msg));
-        ChatFunctions.temporaryMessage(msg.channel, `Alright, you're in, ${ChatFunctions.getNickname(msg)}`, 5000);
+        msg.channel.send(`Alright, you're in, ${ChatFunctions.getNickname(msg)}`);
       }
     });
-
-    ChatFunctions.deleteMessage(msg, 2000);
-    return;
-  }
-
-  if (msg.content.match(/^!ктопидор/)) {
+  } else if (msg.content.startsWith('!ктопидор')) {
     game.CanStartGame(msg.guild.id).then(
       () => {
         game.Run(msg.guild.id).then(
@@ -45,7 +40,7 @@ DiscordClient.on('message', (msg) => {
             msg.channel.send(winMsg);
           },
           (reject) => {
-            ChatFunctions.temporaryMessage(msg.channel, reject, 8000);
+            msg.channel.send(reject);
           }
         );
       },
@@ -53,48 +48,33 @@ DiscordClient.on('message', (msg) => {
         msg.channel.send(`А пидор сегодня - ${reject}`);
       }
     );
-
-    ChatFunctions.deleteMessage(msg, 1000);
-  }
-
-  if (msg.content.match(/^!топпидоров/)) {
+  } else if (msg.content.startsWith('!топпидоров')) {
     game.GetStats(msg.guild.id).then((message) => {
-      ChatFunctions.temporaryMessage(msg.channel, message, 15000);
+      msg.channel.send(message);
     });
-    ChatFunctions.deleteMessage(msg, 1000);
-    return;
-  }
+  } else if (msg.content.startsWith('!исключить')) {
+    if (msg.mentions.users.size) {
+      const taggedUser = msg.mentions.users.first();
 
-  if (msg.content.match(/^!исключить/)) {
-    const chunks = msg.content.split(' ');
-    const userName = chunks[1];
-    const userId = msg.guild.members.find((m) => m.user.username === userName).user.id;
-
-    if (!msg.member.hasPermission('ADMINISTRATOR')) {
-      ChatFunctions.temporaryMessage(msg.channel, 'Вы кто такой? Я вас не звал. Идите нахуй!', 3000);
+      if (msg.author.id === taggedUser.id) {
+        msg.channel.send('Распидориться решил? Ну и иди на хуй!');
+        participantsRepository.RemoveParticipant(taggedUser.id, msg.guild.id);
+      } else {
+        msg.channel.send('Сам распидоривайся, а других не трожь, пидор.');
+      }
     } else {
-      ChatFunctions.temporaryMessage(msg.channel, 'Пидарнул пидорка нахуй', 3000);
-      participantsRepository.RemoveParticipant(userId, msg.guild.id);
+      msg.channel.send('Кого распидоривать будем?');
     }
-    return;
-  }
+  } else if (msg.content.startsWith('!пидорнуть')) {
+    if (msg.mentions.users.size) {
+      const taggedUser = msg.mentions.users.first();
+      participantsRepository.AddParticipant(taggedUser.id, msg.guild.id, taggedUser.username);
 
-  if (msg.content.match(/^!пидорнуть/)) {
-    const chunks = msg.content.split(' ');
-    const userName = chunks[1];
-    const userId = msg.guild.members.find((m) => m.user.username === userName).user.id;
-
-    if (!msg.member.hasPermission('ADMINISTRATOR')) {
-      ChatFunctions.temporaryMessage(msg.channel, 'Вы кто такой? Я вас не звал. Идите нахуй!', 3000);
+      msg.channel.send(`${taggedUser.username} добавлен в игру`);
     } else {
-      ChatFunctions.temporaryMessage(msg.channel, `${userName} добавлен в игру`, 3000);
-      participantsRepository.AddParticipant(userId, msg.guild.id, userName);
+      msg.channel.send('Кого пидорить-то, идиот?');
     }
-  }
-
-  const gayWords = /гей|пидор|геюга|пидорас|педик/i;
-
-  if (msg.content.match(gayWords) && msg.author.id !== BOT_ID) {
+  } else if (!msg.author.bot && msg.content.match(gayWords)) {
     msg.react('🏳️‍🌈');
   }
 });

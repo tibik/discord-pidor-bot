@@ -13,11 +13,4 @@ module.exports = {
 
     return msg.member.displayName;
   },
-
-  deleteMessage(msg, time) {
-    msg.delete(time).then(
-      () => {},
-      () => {}
-    );
-  },
 };
