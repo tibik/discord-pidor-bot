@@ -24,7 +24,7 @@ module.exports = async (client, message) => {
     getplayers(message);
   } else if (!message.author.bot && message.content.match(gayWords)) {
     message.react('🏳️‍🌈');
-  } else if (message.content.startsWith('!play')) {
+  } else if (message.content.startsWith('!плей')) {
     playsound(message);
   }
 };
