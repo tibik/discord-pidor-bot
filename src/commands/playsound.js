@@ -9,7 +9,8 @@ const fileNames = files.map((f) => {
 
 module.exports = async (msg) => {
   const args = msg.content.slice('!'.length).trim().split(/ +/);
-  const firstArg = args[1];
+  args.shift();
+  const firstArg = args[0];
 
   const voiceChannel = msg.member.voice.channel;
   if (!voiceChannel) {
