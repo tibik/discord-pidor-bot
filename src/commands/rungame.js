@@ -1,7 +1,6 @@
 const { canStartGame, tease } = require('../game');
-const { saveGame } = require('../workers/games');
+const { saveGame, getLastGame } = require('../workers/games');
 const { updatePlayerScore, getRandomPlayer } = require('../workers/players');
-const { getLastGame } = require('../workers/games');
 const { getRandomElement } = require('../helpers');
 
 const resultPhrases = [
