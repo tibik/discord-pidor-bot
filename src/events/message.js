@@ -4,10 +4,12 @@ const rungame = require('../commands/rungame');
 const kickfromgame = require('../commands/kickfromgame');
 const addtogame = require('../commands/addtogame');
 const getplayers = require('../commands/getplayers');
+const playsound = require('../commands/playsound');
 
 const gayWords = /гей|пидор|геюга|пидорас|педик|gay/i;
 
-module.exports = (client, message) => {
+module.exports = async (client, message) => {
+  if (message.author.bot) return;
   if (message.content.startsWith('!пидордня') || message.content.startsWith('!пидорня')) {
     enterGame(message);
   } else if (message.content.startsWith('!ктопидор')) {
@@ -22,5 +24,7 @@ module.exports = (client, message) => {
     getplayers(message);
   } else if (!message.author.bot && message.content.match(gayWords)) {
     message.react('🏳️‍🌈');
+  } else if (message.content.startsWith('!play')) {
+    playsound(message);
   }
 };
