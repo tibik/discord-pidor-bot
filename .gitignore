@@ -6,3 +6,4 @@ bot.log
 .vscode/
 pg.js
 TODO.md
+package-lock.json
