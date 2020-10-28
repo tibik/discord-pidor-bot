@@ -19,7 +19,7 @@ module.exports = async (client, message) => {
   } else if (message.content.startsWith('!исключить')) {
     kickfromgame(message);
   } else if (message.content.startsWith('!пидорнуть')) {
-    addtogame(message);
+    addtogame(client, message);
   } else if (message.content.startsWith('!пидоры')) {
     getplayers(message);
   } else if (message.content.match(gayWords)) {
