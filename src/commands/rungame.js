@@ -1,7 +1,14 @@
+const relativeTime = require('dayjs/plugin/relativeTime');
+const dayjs = require('dayjs');
 const { canStartGame, tease } = require('../play');
 const { saveGame, getLastGame } = require('../workers/games');
 const { updatePlayerScore, getRandomPlayer } = require('../workers/players');
 const { getRandomElement } = require('../helpers/index');
+
+require('dayjs/locale/ru');
+
+dayjs.locale('ru');
+dayjs.extend(relativeTime);
 
 const resultPhrases = [
   'А вот и пидор - ',
@@ -30,6 +37,9 @@ module.exports = async (msg) => {
     msg.channel.send(`${getRandomElement(resultPhrases)}<@${winner.discord_user_id}>`);
   } else {
     const lastGame = await getLastGame(msg.guild.id);
-    msg.channel.send(`А пидор сегодня - ${lastGame.discord_user_name}`);
+    const lastGameDate = dayjs(lastGame.datetime * 1000);
+    const nextGameDate = dayjs(lastGameDate).add(1, 'day');
+    const currentDate = dayjs();
+    msg.channel.send(`А пидор сегодня - ${lastGame.discord_user_name}, следующая игра ${currentDate.to(nextGameDate)}.`);
   }
 };
