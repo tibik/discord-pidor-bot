@@ -10,6 +10,11 @@ module.exports = async (client, msg) => {
       return;
     }
 
+    if (taggedUser.bot) {
+      msg.channel.send('Это типа прикол такой?');
+      return;
+    }
+
     if (isUserExists) {
       msg.channel.send('Да он уже в игре.');
     } else {
