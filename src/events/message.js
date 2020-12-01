@@ -5,6 +5,7 @@ const kickfromgame = require('../commands/kickfromgame');
 const addtogame = require('../commands/addtogame');
 const getplayers = require('../commands/getplayers');
 const playsound = require('../commands/playsound');
+const curse = require('../commands/curse');
 
 const gayWords = /гей|пидор|геюга|пидорас|педик|gay/i;
 
@@ -26,5 +27,7 @@ module.exports = async (client, message) => {
     message.react('🏳️‍🌈');
   } else if (message.content.startsWith('!плей')) {
     playsound(message);
+  } else if (message.content.startsWith('!выебать')) {
+    curse(message);
   }
 };
