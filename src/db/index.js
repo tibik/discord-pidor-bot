@@ -6,13 +6,13 @@ const connectionString = process.env.NODE_ENV === 'development' ? process.env.LO
 const client = new Client({ connectionString });
 
 client.connect().catch((e) => {
+  Sentry.captureException(e);
   console.warn('DB connection error: ', e);
 });
 
 async function runQuery(query, params) {
   try {
-    const res = await client.query(query, params);
-    return res;
+    return await client.query(query, params);
   } catch (e) {
     Sentry.captureException(e);
     console.log(e);

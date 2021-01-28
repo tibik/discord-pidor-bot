@@ -11,7 +11,9 @@ module.exports = async (msg) => {
         await addPlayer(msg.author.id, msg.guild.id, msg.author.username);
         msg.channel.send('Ну все, теперь он с нами!');
       } catch (error) {
-        msg.channel.send(`че то не так пошло ${error}`);
+        Sentry.captureException(error);
+        console.log('entergame.js:15 | ', 'error =', error);
+        msg.channel.send('Чот не так пошло, я информацию куда надо передал, дальше уже не от меня зависит.');
       }
     }
   } catch (e) {
