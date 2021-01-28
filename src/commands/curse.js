@@ -40,7 +40,7 @@ module.exports = async (msg) => {
     }
   } catch (e) {
     Sentry.captureException(e);
-    console.error('curse.js:43 | ', 'e =', e);
+    console.log('curse.js:43 | ', 'e =', e);
     msg.channel.send('Чот не так пошло, я информацию куда надо передал, дальше уже не от меня зависит.');
   }
 };
