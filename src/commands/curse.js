@@ -17,14 +17,19 @@ module.exports = async (msg) => {
       }
     } else {
       const warnMessage = await msg.channel.send(
-        `Ты не сказал кого ебать, но можем рандомно кого-нибудь из пидоров. Ставь лойс, если хочешь.`
+        `Ты не сказал кого ебать, но можем рандомно кого-нибудь из пидоров. Ставь лойс, если ты тоже этого хочешь.`
       );
 
-      const reactions = await warnMessage.awaitReactions(() => {}, {
+      await warnMessage.react('👍');
+
+      const collectedReactions = await warnMessage.awaitReactions((reaction) => reaction.emoji.name === '👍', {
+        max: 1,
         time: SECONDS_TO_REACT * 1000,
       });
 
-      if (reactions.count > 0) {
+      const reaction = collectedReactions.first();
+
+      if (reaction) {
         const player = await getRandomPlayer(msg.guild.id);
         const curse = curses[Math.floor(Math.random() * curses.length)];
 
@@ -35,6 +40,7 @@ module.exports = async (msg) => {
     }
   } catch (e) {
     Sentry.captureException(e);
+    console.log('curse.js:41 | ', 'e =', e);
     msg.channel.send('Чот не так пошло, я информацию куда надо передал, дальше уже не от меня зависит.');
   }
 };
