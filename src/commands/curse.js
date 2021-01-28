@@ -6,8 +6,6 @@ const SECONDS_TO_REACT = 15;
 
 module.exports = async (msg) => {
   try {
-    throw new TypeError('testing sentry type error');
-    // eslint-disable-next-line no-unreachable
     if (msg.mentions.users.size) {
       const taggedUser = msg.mentions.users.first();
       const curse = curses[Math.floor(Math.random() * curses.length)];
@@ -26,7 +24,6 @@ module.exports = async (msg) => {
         time: SECONDS_TO_REACT * 1000,
       });
 
-      // eslint-disable-next-line no-unreachable
       if (reactions.count > 0) {
         const player = await getRandomPlayer(msg.guild.id);
         const curse = curses[Math.floor(Math.random() * curses.length)];
