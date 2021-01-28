@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
+    "@sentry/node": "^6.0.2",
+    "@sentry/tracing": "^6.0.2",
     "dayjs": "^1.9.4",
     "discord.js": "^12.4.1",
     "dotenv": "^6.2.0",
