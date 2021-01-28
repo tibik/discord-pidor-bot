@@ -1,7 +1,10 @@
 const Sentry = require('@sentry/node');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 Sentry.init({
-  dsn: 'https://b7ad435aa7c54b27bff60d0cbd6e26b8@o512405.ingest.sentry.io/5612353',
+  dsn: process.env.SENTRY_DSN,
   tracesSampleRate: 1.0,
 });
 
