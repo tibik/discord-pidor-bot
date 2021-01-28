@@ -12,5 +12,6 @@ module.exports = {
   rules: {
     camelcase: 'off',
     'prettier/prettier': 'error',
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
 };
