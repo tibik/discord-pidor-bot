@@ -10,11 +10,11 @@ module.exports = async (msg) => {
       const taggedUser = msg.mentions.users.first();
       const curse = curses[Math.floor(Math.random() * curses.length)];
 
-      if (msg.author.id === taggedUser.id) {
-        msg.channel.send('Ага, шутник.');
-      } else {
-        msg.channel.send(`<@${taggedUser.id}> ${curse}`);
-      }
+      // if (msg.author.id === taggedUser.id) {
+      //   msg.channel.send('Ага, шутник.');
+      // } else {
+      msg.channel.send(`<@${taggedUser.id}> ${curse}`);
+      // }
     } else {
       const warnMessage = await msg.channel.send(
         `Ты не сказал кого ебать, но можем рандомно кого-нибудь из пидоров. Ставь лойс, если тоже этого хочешь.`
