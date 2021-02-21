@@ -7,9 +7,11 @@ const getplayers = require('../commands/getplayers');
 const playsound = require('../commands/playsound');
 const curse = require('../commands/curse');
 
+import {Client, Message} from 'discord.js'
+
 const gayWords = /гей|пидор|геюга|пидорас|педик|gay/i;
 
-module.exports = async (client, message) => {
+module.exports = async (client: Client, message: Message) => {
   if (message.author.bot) return;
   if (message.content.startsWith('!пидордня') || message.content.startsWith('!пидорня')) {
     enterGame(message);

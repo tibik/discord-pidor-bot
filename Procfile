@@ -1,1 +1,1 @@
-worker: node run.js
+worker: node run.ts

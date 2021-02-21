@@ -2,7 +2,7 @@ const curses = require('../helpers/curses');
 const { getRandomPlayer } = require('../workers/players');
 const Sentry = require('../helpers/log');
 
-const SECONDS_TO_REACT = 15;
+const SECONDS_TO_REACT = 5;
 
 module.exports = async (msg) => {
   try {
