@@ -3,7 +3,12 @@ const { Client } = require('pg');
 const Sentry = require('../helpers/log');
 
 const connectionString = process.env.NODE_ENV === 'development' ? process.env.LOCAL_DATABASE_URL : process.env.DATABASE_URL;
-const client = new Client({ connectionString });
+const client = new Client({
+  connectionString,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
 client.connect().catch((e) => {
   Sentry.captureException(e);
